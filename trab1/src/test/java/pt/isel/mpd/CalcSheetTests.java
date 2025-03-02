@@ -72,8 +72,8 @@ public class CalcSheetTests {
         
         sheet.setCellAt(0,0, a1);
         sheet.setCellAt(0, 1, b1);
-        assertEquals(3, sheet.getExprAt(0,1).eval());
-        assertEquals(-1, sheet.getExprAt(0,0).eval());
+        assertEquals(3, sheet.getCellAt(0,1).eval());
+        assertEquals(-1, sheet.getCellAt(0,0).eval());
         
     }
     
