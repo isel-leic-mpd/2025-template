@@ -3,6 +3,7 @@ package pt.isel.mpd.parser;
 import pt.isel.mpd.exceptions.ParserException;
 import pt.isel.mpd.expressions.Const;
 import pt.isel.mpd.expressions.Expr;
+import pt.isel.mpd.expressions.Mul;
 import pt.isel.mpd.spreadsheet0.model.CalcSheet;
 import pt.isel.mpd.spreadsheet0.model.CellRef;
 
@@ -11,36 +12,43 @@ import pt.isel.mpd.spreadsheet0.model.CellRef;
  * Note that the parser dowsn't check if names are valid in the context of the sheet
  */
 public class ParserExpr2 extends ParserExpr {
-    private static final String MAX = "MAX";
-    private static final String SUM = "SUM";
     
     private final CalcSheet sheet;
-    private String startRange, endRange;
     
     public ParserExpr2(CalcSheet sheet) {
         this.sheet = sheet;
     }
     
-    
     protected Expr factor()  {
+        int sign = 1;
+        Expr expr = null;
+        if (token.getType() == Lex.TokType.OP_MINUS) {
+            nextToken();
+            sign = -1;
+        }
         if (token.isWord()) {
             String name = token.getWord();
             nextToken();
-            return new CellRef(name, sheet);
+            expr = new CellRef(name, sheet);
         }
-        if (token.isNumber())  {
+        else if (token.isNumber()) {
             double number = token.getNumber();
             nextToken();
-            return new Const(number);
-        }
-        else if (token.getType() == Lex.TokType.OPEN_BRACKET) {
+            return new Const(sign*number);
+        } else if (token.getType() == Lex.TokType.OPEN_BRACKET) {
             nextToken();
-            Expr expr = expression();
-            if (token.getType() == Lex.TokType.CLOSE_BRACKET) {
-                nextToken();
-                return expr;
+            expr = expression();
+            if (token.getType() != Lex.TokType.CLOSE_BRACKET) {
+                throw new ParserException("close parenthesis expected!");
             }
+            nextToken();
         }
-        throw new ParserException("Number, Word or parentheses expected!");
+        if (expr == null) {
+            throw new ParserException("Number or parentheses expected!");
+        }
+        if (sign == -1) {
+            expr = new Mul(new Const(-1), expr);
+        }
+        return expr;
     }
 }
