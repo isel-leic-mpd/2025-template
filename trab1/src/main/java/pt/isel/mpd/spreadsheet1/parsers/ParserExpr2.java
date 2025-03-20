@@ -9,7 +9,7 @@ import pt.isel.mpd.spreadsheet1.model.CellRef;
 
 public class ParserExpr2 extends ParserExpr {
     
-    private final CalcSheet sheet;
+    protected final CalcSheet sheet;
     
     public ParserExpr2(CalcSheet sheet) {
         this.sheet = sheet;
