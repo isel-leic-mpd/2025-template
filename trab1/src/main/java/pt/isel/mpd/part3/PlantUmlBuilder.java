@@ -91,6 +91,7 @@ public class PlantUmlBuilder {
      * Emite associações entre classes através dos seus campos, usando a sintaxe PlantUml
      * Ex:  BinExpr "1" o----- "1" Expr : left
      * para indicar que BinExpr agrega um Expr através do seu campo left
+     * A implementação deste método é opcional
      */
     
     public PlantUmlBuilder emmitFieldAssociations() {
