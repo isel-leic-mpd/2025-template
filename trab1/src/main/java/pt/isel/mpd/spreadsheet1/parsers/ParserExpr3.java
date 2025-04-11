@@ -63,7 +63,8 @@ public class ParserExpr3 extends ParserExpr2 {
                     expr = new Sum(sheet, startRange, endRange);
                 }
                 default -> {
-                    nextToken();
+                    // it was already called before the switch
+                    //nextToken();
                     expr = new CellRef(name, sheet);
                 }
             }

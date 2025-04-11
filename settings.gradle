@@ -12,4 +12,5 @@ plugins {
 
 rootProject.name = '2025-template'
 include ('trab1')
+include ('trab2')
 
