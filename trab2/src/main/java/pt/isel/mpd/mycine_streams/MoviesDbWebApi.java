@@ -57,8 +57,8 @@ public class MoviesDbWebApi {
 	}
 	
 	
-	public List<TvSeriesDto> getTvSeriesRecommendations(int page, int movieId) {
-		String path = String.format(TV_SERIES_RECOMMENDATIONS, movieId, page);
+	public List<TvSeriesDto> getTvSeriesRecommendations(int page, int seriesId) {
+		String path = String.format(TV_SERIES_RECOMMENDATIONS, seriesId, page);
 		Reader reader = req.get(path);
 		TvSeriesQueryDto recommendations =
 			gson.fromJson(reader, TvSeriesQueryDto.class);

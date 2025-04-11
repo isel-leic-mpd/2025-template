@@ -32,7 +32,7 @@ public class MoviesDbServiceTests {
 
 	
 	@Test
-	public void getActionAndAdventureTvSeriesTest() {
+	public void getCrimeAndOrMisteryTvSeriesTest() {
 		CounterRequest req = new CounterRequest( new HttpRequest() );
 		int misteryGenreId = 9648;
 		int crimeGenreId = 80;
@@ -59,28 +59,29 @@ public class MoviesDbServiceTests {
 
 		assertEquals(2, req.getCount());
 
-		firstTen.forEach(movie -> {
-			System.out.println(movie.getName() + " actors:");
-			movie.getActors().forEach(System.out::println);
+		firstTen.forEach(series2 -> {
+			System.out.println(series2.getName() + " actors:");
+			series2.getActors().forEach(System.out::println);
 			System.out.println();
 		});
+	 
 		assertEquals(13, req.getCount());
+		
 	}
 
 	@Test
-	public void getActorsOfWestWorldMovieTest() {
-		int westWorldMovieId = 63247; // WestWorld, 2020
+	public void getActorsOfWestWorldSeriesTest() {
+		int westWorldSeriesId = 63247; // WestWorld, 2020
 		CounterRequest req = new CounterRequest(new HttpRequest());
 		MoviesDbService serv =
 			  new MoviesDbService(new MoviesDbWebApi(req));
 
-		 
-
-		var actorsList = serv.getTvSeriesActors(westWorldMovieId).toList();
+		
+		var actorsList = serv.getTvSeriesActors(westWorldSeriesId).toList();
 		actorsList.forEach(System.out::println);
-		assertEquals(2, req.getCount());
-		assertEquals(7, actorsList.size());
-		assertEquals(2, req.getCount());
+		assertEquals(1, req.getCount());
+		assertEquals(9, actorsList.size());
+		assertEquals(1, req.getCount());
 	}
 
  
@@ -92,15 +93,15 @@ public class MoviesDbServiceTests {
 			new MoviesDbService(new MoviesDbWebApi(req));
 
 		int rachelWoodId = 38940;
-		Stream<TvSeries> moviesStream =
+		Stream<TvSeries> seriesStream =
 			serv.getActorTvSeries(rachelWoodId);
 		assertEquals(0, req.getCount());
 
-		var moviesList = moviesStream.collect(toList());
-
-		moviesList.forEach(System.out::println);
+		var seriesList = seriesStream.collect(toList());
+		
+		seriesList.forEach(System.out::println);
 		assertEquals(1, req.getCount());
-		assertEquals(49, moviesList.size());
+		assertEquals(28, seriesList.size());
 	}
 
 
