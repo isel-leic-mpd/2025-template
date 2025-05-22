@@ -1,13 +1,15 @@
-package pt.isel.mpd.mycine_streams;
+package pt.isel.mpd.mycine_async;
 
 import com.google.gson.Gson;
-import pt.isel.mpd.mycine_streams.dto.*;
+import pt.isel.mpd.mycine_async.dto.*;
 import pt.isel.mpd.mycine_utils.requests.Request;
+import pt.isel.mpd.mycine_utils.requests.async.AsyncRequest;
 import pt.isel.mpd.mycine_utils.resources.ResourceUtils;
 
 import java.io.BufferedReader;
 import java.io.Reader;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 
 public class MoviesDbWebApi {
@@ -30,7 +32,7 @@ public class MoviesDbWebApi {
 
 
 	protected final Gson gson;
-	private final Request req;
+	private final AsyncRequest req;
 
 	/**
 	 * Retrieve API-KEY from resources
@@ -46,52 +48,39 @@ public class MoviesDbWebApi {
 		}
 	}
 
-	public List<GenreDto> getGenres() {
-		String path = TV_SERIES_GENRES;
-		Reader reader = req.get(path);
-		GenreListQuery genresQuery =
-			gson.fromJson(reader, GenreListQuery.class);
-		return genresQuery.getGenres();
+	public CompletableFuture<List<GenreDto>> getGenres() {
+		// TO IMPLEMENT
+		return CompletableFuture.completedFuture(List.of());
 	}
 	
 	
-	public List<TvSeriesDto> getTvSeriesRecommendations(int page, int seriesId) {
-		String path = String.format(TV_SERIES_RECOMMENDATIONS, seriesId, page);
-		Reader reader = req.get(path);
-		TvSeriesQueryDto recommendations =
-			gson.fromJson(reader, TvSeriesQueryDto.class);
-		return recommendations.getResults();
-	}
-
-	public List<TvSeriesDto> searchByGenreIds(int page, List<Integer> genreIds) {
+	public CompletableFuture<List<TvSeriesDto>> getTvSeriesRecommendations(int page, int seriesId) {
 		// TO IMPLEMENT
-		return List.of();
+		return CompletableFuture.completedFuture(List.of());
 	}
 
-	public List<TvSeriesDto> searchByName(int page, String nameMatch) {
-		String path =  String.format(TV_SERIES_SEARCH_BY_NAME, nameMatch, page);
-		Reader reader = req.get(path);
-		SearchTvSeriesDto series =
-			gson.fromJson(reader, SearchTvSeriesDto.class);
-		return series.getResults();
-	}
-
-	public List<ActorDto> tvSeriesActors(int tvSeriesId) {
-		String path =  String.format(TV_SERIES_CREDITS, tvSeriesId);
-		Reader reader = req.get(path);
-
-		GetActorsDto credits =
-			gson.fromJson(reader, GetActorsDto.class);
-		return credits.getCast();
-
-	}
-
-	public List<TvSeriesDto> actorSeries(int actorId) {
+	public CompletableFuture<List<TvSeriesDto>> searchByGenreIds(int page, List<Integer> genreIds) {
 		// TO IMPLEMENT
-		return List.of();
+		return CompletableFuture.completedFuture(List.of());
 	}
 
-	public MoviesDbWebApi(Request req) {
+	public CompletableFuture<List<TvSeriesDto>> searchByName(int page, String nameMatch) {
+		// TO IMPLEMENT
+		return CompletableFuture.completedFuture(List.of());
+	}
+
+	public CompletableFuture<List<ActorDto>> tvSeriesActors(int tvSeriesId) {
+		// TO IMPLEMENT
+		return CompletableFuture.completedFuture(List.of());
+
+	}
+
+	public CompletableFuture<List<TvSeriesDto>> actorSeries(int actorId) {
+		// TO IMPLEMENT
+		return CompletableFuture.completedFuture(List.of());
+	}
+
+	public MoviesDbWebApi(AsyncRequest req) {
 		this.req = req;
 		gson = new Gson();
 	}
